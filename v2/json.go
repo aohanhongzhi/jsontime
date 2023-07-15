@@ -106,6 +106,7 @@ func (extension *CustomTimeExtension) UpdateStructDescriptor(structDescriptor *j
 		if format, ok := formatAlias[formatTag]; ok {
 			timeFormat = format
 		} else if formatTag != "" {
+			// 注意这里可能会导致格式化错误
 			timeFormat = formatTag
 		}
 		locale := defaultLocale
