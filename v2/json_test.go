@@ -98,3 +98,28 @@ func TestAlias(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, book1, book2)
 }
+
+func TestKindOfTime(t *testing.T) {
+	type Book struct {
+		Id          int        `json:"id"`
+		PublishedAt *time.Time `json:"published_at" time_format:"sql_datetime"`
+		UpdatedAt   *time.Time `json:"updated_at" time_format:"sql_datetime"`
+		CreatedAt   time.Time  `json:"created_at" time_format:"sql_datetime"`
+	}
+	AddTimeFormatAlias("sql_datetime", "2006-01-02 15:04:05")
+
+	raw := `{"id":1,"published_at":null,"updated_at":"2023-07-02T16:00:00.000Z","created_at":"2018-01-01 00:00:00"}`
+	book2 := Book{}
+	err := json.Unmarshal([]byte(raw), &book2)
+	assert.Nil(t, err)
+
+}
+
+func TestTimeLenght(t *testing.T) {
+	timeString := "2023-07-02T16:00:00.000Z"
+	lenght := len(timeString)
+	println(lenght)
+	timeString1 := "2006-01-02T15:04:05.999999999Z07:00"
+	lenght1 := len(timeString1)
+	println(lenght1)
+}

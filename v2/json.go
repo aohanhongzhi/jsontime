@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"strings"
 	"time"
 	"unsafe"
 
@@ -155,6 +156,13 @@ func (extension *CustomTimeExtension) UpdateStructDescriptor(structDescriptor *j
 			var t *time.Time
 			if str != "" {
 				var err error
+				if strings.Contains(str, "T") {
+					if len(str) < 30 {
+						timeFormat = time.RFC3339
+					} else {
+						timeFormat = time.RFC3339Nano
+					}
+				}
 				tmp, err := time.ParseInLocation(timeFormat, str, locale)
 				if err != nil {
 					iter.Error = err
